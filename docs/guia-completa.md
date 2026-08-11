@@ -394,4 +394,4 @@ La orquestación multi-modelo no es un truco para usar más GPUs. Es una discipl
 
 Cuando diseñas con responsabilidades claras, contratos de trabajo precisos, caching consciente y verificación cruzada, obtienes sistemas que son al mismo tiempo más baratos, más rápidos y más fiables que un solo modelo grande usado a ciegas.
 
-Este repo es un trabajo vivo. Si tienes un caso de uso, una métrica o un patrón que no está aquí, contribuye. La comunidad NaN Builders avanza más rápido cuando compartimos no solo prompts, sino arquitecturas.
+Este repo es un trabajo vivo. Si tienes un caso de uso, una métrica o un patrón que no está aquí, contribuye. La comunidad NaN Builders ([@borjaperfra](https://x.com/borjaperfra)) avanza más rápido cuando compartimos no solo prompts, sino arquitecturas.

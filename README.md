@@ -123,7 +123,7 @@ Esto es un documento vivo. Si has experimentado con multi-modelo y tienes leccio
 ## Créditos
 
 - **Elcano Research Program** — investigación original y documentación
-- **NaN Builders (@barckcode)** — infraestructura que hizo posible el experimento
+- **NaN Builders ([@borjaperfra](https://x.com/borjaperfra))** — infraestructura que hizo posible el experimento
 - **Helmcode** — el post sobre GLM-5.2 + DeepSeek que inspiró sistematizar el caching
 - **Anthropic / Claude Code (Boris Cherny)** — arquitectura de sub-agentes que extendemos con multi-modelo
 
