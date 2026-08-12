@@ -9,7 +9,7 @@
 
 NaN Builders detecta automáticamente cuando varias peticiones comparten el mismo prefijo de tokens. Si el inicio del prompt es idéntico, la plataforma reutiliza la representación interna de ese prefijo en lugar de reprocesarlo.
 
-Esto es especialmente poderoso con modelos como **DeepSeek V4 Flash**, que ofrece un **98 % de descuento en cached tokens**.
+Esto es especialmente poderoso con modelos como **DeepSeek V4 Flash**, que ofrece un descuento estimado del **~98 % en cached tokens**.
 
 ### 1.1. Condición fundamental
 
@@ -125,7 +125,7 @@ La primera petición paga el coste del cold start y del procesamiento del prefij
 
 ### 3.3. Métricas esperadas
 
-| Estado | Latencia aproximada |
+| Estado | Latencia aproximada (estimaciones operativas) |
 |---|---|
 | Cold start | ~3,29 s |
 | Sin caché, petición individual | ~0,76 s mediana |
@@ -142,7 +142,7 @@ La primera petición paga el coste del cold start y del procesamiento del prefij
 - [ ] El sufijo contiene solo la tarea concreta y las entradas necesarias.
 - [ ] He calentado la caché con una petición inicial antes del lanzamiento masivo.
 - [ ] He medido latencia con y sin caché para confirmar el ahorro.
-- [ ] Uso modelos que ofrecen descuento por cached tokens (ej. DeepSeek V4 Flash en NaN Builders).
+- [ ] Uso modelos que ofrecen descuento por cached tokens (ej. DeepSeek V4 Flash en NaN Builders, ~98 % estimado).
 
 ---
 

@@ -1,8 +1,16 @@
 # Orquestación Multi-Modelo con NaN Builders
 
-**Una guía práctica, open-source y pedagógica para orquestar múltiples modelos de IA en paralelo.**
+**Un playbook open-source y pedagógico de lecciones de proceso agentico.**
 
-*Probada en un experimento real contra la Hipótesis de Riemann. Aplicable a tu día a día.*
+*Destilado de un experimento real contra la Hipótesis de Riemann. Aplicable a tu día a día.*
+
+---
+
+## Status
+
+This is a playbook of agentic process lessons, not a software framework. No runtime, CLI, or executable pipeline is included.
+
+This repository contains documentation, field notes, templates, and a case study. Use it as a source of patterns, not as installable software.
 
 ---
 
@@ -12,9 +20,9 @@ La mayoría de gente usa un modelo de IA. Le da un prompt, recibe una respuesta.
 
 Esto es sobre algo distinto: **orquestar varios modelos especializados en paralelo**, cada uno con un rol asignado, para atacar problemas que ningún modelo individual puede resolver bien.
 
-No es teoría. Lo usamos para investigar la barrera del 2/3 en los ceros de la función zeta de Riemann — un problema de matemáticas abierto desde 1859. Cinco modelos, seis ángulos de ataque, ocho horas, resultado negativo pero preciso. [El repo de ese experimento está aquí](https://github.com/elCanosail/riemann-conjecture).
+No es teoría. Lo usamos para investigar la barrera del 2/3 en los ceros de la función zeta de Riemann — un problema de matemáticas abierto desde 1859. Cinco modelos, seis ángulos de ataque, ~8 horas de cómputo activo distribuidas en ~3 semanas de iteración, resultado negativo pero preciso. [El repo de ese experimento está aquí](https://github.com/elCanosail/riemann-conjecture).
 
-Esta guía extrae lo que aprendimos y lo hace reproducible.
+Esta guía extrae lo que aprendimos y lo hace práctico.
 
 ---
 
@@ -33,9 +41,9 @@ La pregunta deja de ser "¿qué modelo uso?" y pasa a ser "¿qué responsabilida
 | Sección | Qué contiene |
 |---------|-------------|
 | [Guía completa](docs/guia-completa.md) | ~3500 palabras. Panel de modelos, contratos, caching, verificación, patrones, anti-patrones. Todo explicado pedagógicamente |
-| [Caso de estudio: Riemann](examples/riemann-case-study.md) | El experimento real que validó esta arquitectura. 5 modelos, 6 ángulos, fallo real de Kimi K2.6 y recuperación |
+| [Caso de estudio: Riemann](examples/riemann-case-study.md) | El experimento real que inspiró estas lecciones. 5 modelos, 6 ángulos, fallo real de Kimi K2.6 y recuperación |
 | [Plantilla: Contrato de trabajo](templates/contrato-trabajo.md) | Template reutilizable para handoffs orquestador → sub-agente |
-| [Plantilla: Prompt caching](templates/prompt-caching.md) | Cómo estructurar prompts para maximizar cache hits en NaN Builders (98% descuento) |
+| [Plantilla: Prompt caching](templates/prompt-caching.md) | Cómo estructurar prompts para maximizar cache hits en NaN Builders (98% descuento estimado) |
 
 ---
 
@@ -44,7 +52,7 @@ La pregunta deja de ser "¿qué modelo uso?" y pasa a ser "¿qué responsabilida
 | Rol | Modelo | Plataforma | Tamaño | Por qué |
 |-----|--------|-----------|--------|---------|
 | Orquestador | GLM-5.2 | Ollama Cloud | 1508 GB | 1M contexto, mantiene visión global, sintetiza |
-| Ejecutor rápido | DeepSeek V4 Flash | NaN Builders | 140 GB | 0.76s latencia, barato, profundo en álgebra |
+| Ejecutor rápido | DeepSeek V4 Flash | NaN Builders | 140 GB | ~0.76s latencia estimada, barato, profundo en álgebra |
 | Deep reasoning | Kimi K2.6 | Ollama Cloud | 595 GB | Cadenas largas. Cuidado con álgebra abstracta |
 | Bias alternativo | Qwen 3.6 | NaN Builders | 397 GB | Ve patrones que otros no buscan |
 | Verificador | Cogito 2.1 | Ollama Cloud | 689 GB | Verificación independiente sin contexto compartido |
@@ -53,16 +61,16 @@ La pregunta deja de ser "¿qué modelo uso?" y pasa a ser "¿qué responsabilida
 
 ---
 
-## Rendimiento real con NaN Builders
+## Rendimiento observado con NaN Builders (estimaciones operativas)
 
 | Métrica | Valor | Contexto |
 |---------|-------|----------|
-| Latencia mediana | 0.76s | DeepSeek V4 Flash en NaN (vs 2.37s en Ollama Cloud) |
-| Caching estabilizado | 0.57–0.78s | Tras cold start, runs repetidas |
-| Cold start | 3.29s | Primera llamada |
-| Throughput | ~145 tok/s | Paridad con Ollama Cloud |
+| Latencia mediana aproximada | 0.76s | DeepSeek V4 Flash en NaN (vs 2.37s en Ollama Cloud) |
+| Caching estabilizado aproximado | 0.57–0.78s | Tras cold start, runs repetidas |
+| Cold start aproximado | 3.29s | Primera llamada |
+| Throughput estimado | ~145 tok/s | Paridad aproximada con Ollama Cloud |
 | Cuota | 500M tokens/mes por modelo | Efectivamente ilimitado para trabajo normal |
-| Cache discount | ~98% en cached tokens | DeepSeek — una de las políticas más agresivas |
+| Cache discount estimado | ~98% en cached tokens | DeepSeek — una de las políticas más agresivas |
 
 ¿Qué significa en práctica? Puedes lanzar 3 sub-agentes en paralelo, si uno falla lo reasignas, iteras sin mirar el contador. "¿Podemos permitirnos otro intento?" deja de ser la pregunta. "Lanza todos los que quieras" es la respuesta.
 
@@ -131,11 +139,11 @@ Esto es un documento vivo. Si has experimentado con multi-modelo y tienes leccio
 
 ## Licencia
 
-- **Código y templates:** MIT
+- **Templates y documentación:** MIT
 - **Documentación y guías:** CC-BY-4.0
 
 Ver [`LICENSE`](LICENSE) para detalles.
 
 ---
 
-*Si esta guía te resulta útil, el experimento completo que la validó está en [github.com/elCanosail/riemann-conjecture](https://github.com/elCanosail/riemann-conjecture).*
+*Si este playbook te resulta útil, el experimento completo que lo inspiró está en [github.com/elCanosail/riemann-conjecture](https://github.com/elCanosail/riemann-conjecture).*

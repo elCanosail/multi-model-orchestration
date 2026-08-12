@@ -109,17 +109,17 @@ A continuación resumimos métricas reales obtenidas durante la investigación.
 
 | Métrica | Valor aproximado |
 |---|---|
-| Duración total del proyecto | ~3 semanas de trabajo activo |
+| Duración total del proyecto | ~3 semanas de iteración (~8 horas de cómputo activo) |
 | Tokens consumidos | ~120M tokens (mayoría en Ollama Cloud) |
-| Latencia mediana sub-agente (NaN Builders) | 0,76 s |
-| Latencia mediana sub-agente (Ollama Cloud) | 2,37 s |
-| Cold start NaN Builders | 3,29 s |
-| Latencia tras caché caliente | 0,57–0,78 s |
-| Throughput medio | ~145 tok/s |
+| Latencia mediana sub-agente (NaN Builders, estimación operativa) | 0.76 s |
+| Latencia mediana sub-agente (Ollama Cloud, estimación operativa) | 2.37 s |
+| Cold start NaN Builders (estimación operativa) | 3.29 s |
+| Latencia tras caché caliente (estimación operativa) | 0.57–0.78 s |
+| Throughput medio estimado | ~145 tok/s |
 
 ### 4.3. Rendimiento del caching
 
-En las fases con prefijo constante (por ejemplo, el contrato base para análisis de ceros), el uso consciente del caching redujo la latencia efectiva en un factor de 3–4 en NaN Builders. DeepSeek V4 Flash, con su descuento del 98 % en cached tokens, fue especialmente económico para lotes de verificación masiva.
+En las fases con prefijo constante (por ejemplo, el contrato base para análisis de ceros), el uso consciente del caching redujo la latencia efectiva en un factor de 3–4 en NaN Builders. DeepSeek V4 Flash, con su descuento estimado del ~98 % en cached tokens, fue especialmente económico para lotes de verificación masiva.
 
 ---
 

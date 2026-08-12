@@ -184,7 +184,7 @@ El contrato de trabajo es, en esencia, un filtro de contexto.
 
 ### 4.1. Cómo funciona el caching por prefijos en NaN Builders
 
-NaN Builders ofrece caching por prefijos: si varias peticiones comparten un prefijo inicial idéntico, ese prefijo no se reprocesa. El ahorro puede ser enorme, especialmente con modelos como DeepSeek que ofrecen un **98 % de descuento en cached tokens**.
+NaN Builders ofrece caching por prefijos: si varias peticiones comparten un prefijo inicial idéntico, ese prefijo no se reprocesa. El ahorro puede ser enorme, especialmente con modelos como DeepSeek que ofrecen un descuento estimado del **98 % en cached tokens**.
 
 El caching funciona a nivel de tokenización: la plataforma detecta que la secuencia de tokens iniciales coincide con una petición anterior y reutiliza la representación interna. Esto reduce tanto la latencia como el coste.
 
@@ -222,7 +222,7 @@ Si vas a lanzar 20 sub-agentes en paralelo con el mismo prefijo, no los lances t
 # 1. Enviar una petición de calentamiento con el prefijo completo
 warmup = call_model(prefix=PREFIX_CONSTANTE, suffix="Tarea de calentamiento.")
 
-# 2. Esperar la respuesta (cold start ~3.29s en NaN Builders)
+# 2. Esperar la respuesta (cold start ~3.29s en NaN Builders, estimación operativa)
 wait(warmup)
 
 # 3. Lanzar el resto en paralelo; ahora el prefijo está en caché
@@ -330,11 +330,11 @@ A continuación resumimos métricas reales obtenidas en nuestras pruebas con NaN
 
 | Métrica | Valor | Interpretación práctica |
 |---|---|---|
-| Latencia mediana | 0,76 s | Respuesta rápida para sub-agentes en paralelo |
-| Latencia Ollama Cloud (mismo modelo) | 2,37 s | NaN Builders es ~3× más rápido para este modelo |
-| Throughput | ~145 tok/s | Adecuado para respuestas de moderada longitud |
-| Cold start | 3,29 s | Primera petición tras inactividad; esperable |
-| Latencia tras caché caliente | 0,57–0,78 s | Muy estable una vez el prefijo está cacheado |
+| Latencia mediana aproximada | 0,76 s | Respuesta rápida para sub-agentes en paralelo |
+| Latencia Ollama Cloud aproximada (mismo modelo) | 2,37 s | NaN Builders es ~3× más rápido para este modelo |
+| Throughput estimado | ~145 tok/s | Adecuado para respuestas de moderada longitud |
+| Cold start aproximado | 3,29 s | Primera petición tras inactividad; esperable |
+| Latencia tras caché caliente aproximada | 0,57–0,78 s | Muy estable una vez el prefijo está cacheado |
 | Cuota | 500M tokens/mes por modelo | Suficiente para cientos de miles de llamadas |
 
 ### Qué significan estos números en la práctica
