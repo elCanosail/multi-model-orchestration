@@ -395,3 +395,21 @@ La orquestación multi-modelo no es un truco para usar más GPUs. Es una discipl
 Cuando diseñas con responsabilidades claras, contratos de trabajo precisos, caching consciente y verificación cruzada, obtienes sistemas que son al mismo tiempo más baratos, más rápidos y más fiables que un solo modelo grande usado a ciegas.
 
 Este repo es un trabajo vivo. Si tienes un caso de uso, una métrica o un patrón que no está aquí, contribuye. La comunidad NaN Builders ([@borjaperfra](https://x.com/borjaperfra)) avanza más rápido cuando compartimos no solo prompts, sino arquitecturas.
+
+---
+
+## 10. Más allá de secuencial: patrones swarm
+
+La guía hasta aquí describe orquestación **secuencial** (orquestador → sub-agentes → verificación). Cuando el problema lo permite, el siguiente nivel es la orquestación **enjambre (swarm)**: lanzar N agentes en paralelo sobre la misma pregunta, con sesgos de rol distintos, y reducir con reglas explícitas de voto, arbitraje o consenso.
+
+**Patrones cubiertos en [docs/swarm-patterns.md](docs/swarm-patterns.md):**
+
+1. **Fan-out/fan-in** — divergir en perspectivas complementarias y converger.
+2. **Jurado** — jueces independientes (sin contexto de producción) dictaminan PASS/FAIL.
+3. **Especialistas cruzados** — dos modelos se contradicen controladamente, el orquestador arbitra.
+4. **Red-team** — un adversario deliberado intenta romper el resultado; el defensor lo parchea.
+5. **Multiverse** — rutas alternativas con metodologías distintas cuando no se sabe cuál es la vía.
+
+**Plantilla operativa en [templates/jurado-verificacion.md](templates/jurado-verificacion.md)** — el paquete de veredicto y las reglas de decisión para el patrón más usado (jurado).
+
+**Recuerda los límites reales de NaN para swarm:** 60 rpm, 5 concurrentes, 1.5M tpm por modelo, cuotas mensuales (deepseek 2B, mimo 1B). El fan-out bien cacheado es barato; el fan-out sin diseñar el prefijo común es caro.

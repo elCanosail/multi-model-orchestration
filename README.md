@@ -41,23 +41,26 @@ La pregunta deja de ser "¿qué modelo uso?" y pasa a ser "¿qué responsabilida
 | Sección | Qué contiene |
 |---------|-------------|
 | [Guía completa](docs/guia-completa.md) | ~3500 palabras. Panel de modelos, contratos, caching, verificación, patrones, anti-patrones. Todo explicado pedagógicamente |
+| [Patrones swarm](docs/swarm-patterns.md) | **Nuevo.** Fan-out/fan-in, jurado de votación, especialistas cruzados, red-team, multiverse. Cómo lanzar enjambres de modelos NaN con límites reales |
 | [Caso de estudio: Riemann](examples/riemann-case-study.md) | El experimento real que inspiró estas lecciones. 5 modelos, 6 ángulos, fallo real de Kimi K2.6 y recuperación |
 | [Plantilla: Contrato de trabajo](templates/contrato-trabajo.md) | Template reutilizable para handoffs orquestador → sub-agente |
 | [Plantilla: Prompt caching](templates/prompt-caching.md) | Cómo estructurar prompts para maximizar cache hits en NaN Builders (98% descuento estimado) |
 
 ---
 
-## Panel de modelos recomendado
+## Panel de modelos recomendado (orientado NaN)
 
-| Rol | Modelo | Plataforma | Tamaño | Por qué |
-|-----|--------|-----------|--------|---------|
-| Orquestador | GLM-5.2 | Ollama Cloud | 1508 GB | 1M contexto, mantiene visión global, sintetiza |
-| Ejecutor rápido | DeepSeek V4 Flash | NaN Builders | 140 GB | ~0.76s latencia estimada, barato, profundo en álgebra |
-| Deep reasoning | Kimi K2.6 | Ollama Cloud | 595 GB | Cadenas largas. Cuidado con álgebra abstracta |
-| Bias alternativo | Qwen 3.6 | NaN Builders | 397 GB | Ve patrones que otros no buscan |
-| Verificador | Cogito 2.1 | Ollama Cloud | 689 GB | Verificación independiente sin contexto compartido |
+El panel del experimento original mezcla plataformas (ver guía completa). Para un stack **NaN-first** con cuotas amplias y latencia baja, este es el panel mínimo verificado (2026-08-22):
 
-**Regla clave:** match model al tipo de razonamiento, no al tamaño. El modelo "pequeño" (DeepSeek 140GB) a veces piensa más profundo que el "grande" (Kimi 595GB) en ciertos tipos de problemas.
+| Rol | Modelo | Plataforma | Contexto | Por qué |
+|-----|--------|-----------|-----------|--------|
+| Ejecución rápida / tool-calls | `gemma4` | NaN | 256K | Respuestas cortas y disciplinadas, JSON limpio — el mejor para sub-agentes con contratos |
+| Análisis / razonamiento medio | `qwen3.6` | NaN | 256K | Flagship, MTP 2x, multimodal; bueno para análisis y síntesis |
+| Revisión / jueces / escepticismo | `deepseek-v4-flash` | NaN | 1M | Reasoning profundo, ideal como verificador externo (cuidado: respuestas cortas en NaN si no se pide longitud) |
+| *Omnimodal (texto+vision+audio)* | `mimo-v2.5` | NaN | 1M | NO recomendado para agentes/swarm (falla disciplina JSON); útil solo para tareas multimodales |
+| Full-context orquestador (si está en el stack) | `glm-5.2` | Ollama Cloud | 1M | 1M de contexto y síntesis; caro, reservado para orquestación final |
+
+**Panel swarm mínimo recomendado:** `gemma4` + `qwen3.6` + `deepseek-v4-flash` (3 roles: ejecutar, alternar, juzgar). Los 3 caben en 5 concurrentes de NaN.
 
 ---
 
@@ -69,7 +72,8 @@ La pregunta deja de ser "¿qué modelo uso?" y pasa a ser "¿qué responsabilida
 | Caching estabilizado aproximado | 0.57–0.78s | Tras cold start, runs repetidas |
 | Cold start aproximado | 3.29s | Primera llamada |
 | Throughput estimado | ~145 tok/s | Paridad aproximada con Ollama Cloud |
-| Cuota | 500M tokens/mes por modelo | Efectivamente ilimitado para trabajo normal |
+| Cuota mensual | **deepseek-v4-flash 2B · mimo-v2.5 1B** | Actualizado 2026-08-22 desde docs oficiales (antes figuraba 500M) |
+| Rate limits | **60 rpm / 5 concurrentes / 1.5M tpm** por key | Actualizado 2026-08-22; clave para diseñar el fan-out |
 | Cache discount estimado | ~98% en cached tokens | DeepSeek — una de las políticas más agresivas |
 
 ¿Qué significa en práctica? Puedes lanzar 3 sub-agentes en paralelo, si uno falla lo reasignas, iteras sin mirar el contador. "¿Podemos permitirnos otro intento?" deja de ser la pregunta. "Lanza todos los que quieras" es la respuesta.
