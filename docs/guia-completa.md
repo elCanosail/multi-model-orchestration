@@ -129,10 +129,10 @@ Un modelo que verifica su propio trabajo sufre de *rubber-stamping*: tiende a ac
 | Modelo | Tamaño | Contexto | Plataforma | Rol | Fortalezas | Debilidades |
 |---|---|---|---|---|---|---|
 | GLM-5.2 | 1,5 T / 1.508 GB | 1M | Ollama Cloud | Orquestador | Visión global, diseño de planes, detección de riesgos | Lento y caro para tareas repetitivas |
-| DeepSeek V4 Flash | 140 GB | Estándar | NaN Builders | Ejecutor rápido | Baja latencia, buen throughput, razonamiento concentrado | Puede perder detalles en contextos muy largos |
+| DeepSeek V4 Flash | 140 GB | 1M | NaN Builders | Ejecutor rápido | Baja latencia, buen throughput, razonamiento concentrado | Puede perder detalles en contextos muy largos |
 | Kimi K2.6 | 595 GB | 1M | Ollama Cloud | Razonador profundo | Cadenas largas, dependencias complejas | Puede fallar en álgebra abstracta por confianza excesiva |
-| Qwen 3.6 | 397 GB | Estándar | NaN Builders | Sesgo alternativo | Ángulos diferentes, detección de ciegos compartidos | Menos potente para razonamiento profundo |
-| Cogito 2.1 | 689 GB | Estándar | Ollama Cloud | Verificador | Escrutinio independiente, detección de saltos lógicos | No debe ejecutar; solo verificar |
+| Qwen 3.6 | 397 GB | 256K | NaN Builders | Sesgo alternativo | Ángulos diferentes, detección de ciegos compartidos | Menos potente para razonamiento profundo |
+| Cogito 2.1 | 689 GB | 1M | Ollama Cloud | Verificador | Escrutinio independiente, detección de saltos lógicos | No debe ejecutar; solo verificar |
 
 ---
 
@@ -335,14 +335,14 @@ A continuación resumimos métricas reales obtenidas en nuestras pruebas con NaN
 | Throughput estimado | ~145 tok/s | Adecuado para respuestas de moderada longitud |
 | Cold start aproximado | 3,29 s | Primera petición tras inactividad; esperable |
 | Latencia tras caché caliente aproximada | 0,57–0,78 s | Muy estable una vez el prefijo está cacheado |
-| Cuota | 500M tokens/mes por modelo | Suficiente para cientos de miles de llamadas |
+| Cuota | deepseek-v4-flash 2B · mimo-v2.5 1B tok/mes | Actualizado 2026-08-22; verificado en docs oficiales |
 
 ### Qué significan estos números en la práctica
 
 Supongamos que cada sub-agente consume 2.000 tokens de salida y 1.000 de entrada, y que un flujo típico lanza 20 sub-agentes en paralelo.
 
 - 20 sub-agentes × 3.000 tokens = 60.000 tokens por ejecución.
-- Con 500M tokens/mes, puedes ejecutar ese flujo unas 8.300 veces al mes, es decir, ~275 veces al día.
+- Con la cuota de deepseek-v4-flash (2B tok/mes), puedes ejecutar ese flujo unas 33.000 veces al mes, es decir, ~1.100 veces al día.
 
 Si usas caché consciente, la cuota se estira mucho más. Y si alternas entre NaN Builders para tareas rápidas y Ollama Cloud para tareas de razonamiento profundo, optimizas costes sin sacrificar calidad.
 

@@ -1,7 +1,7 @@
 # Patrones de orquestación enjambre (swarm) con NaN Builders
 
 > **Audiencia:** equipos que quieren pasar de "un orquestador + sub-agentes secuenciales" a sistemas donde **muchos modelos especializados trabajan en paralelo, compiten, se contradicen y convergen**.
-> **Plataforma objetivo:** NaN Builders (`https://api.nan.builders/v1`) — modelos `gemma4`, `qwen3.6`, `deepseek-v4-flash`, `mimo-v2.5`; límites reales verificados: **60 rpm / 5 concurrentes por key / 1.5M tokens/min por modelo**.
+> **Plataforma objetivo:** NaN Builders (`https://api.nan.builders/v1`) — modelos `gemma4`, `qwen3.6`, `deepseek-v4-flash`, `mimo-v2.5`; límites reales verificados: **60 rpm y 5 concurrentes por key · 1.5M tokens/min por modelo**.
 > **Nota de honestidad:** estos son patrones de arquitectura de agentes, no algoritmos nuevos. El valor está en adaptarlos a un harness concreto (OpenClaw, Claude Code, OpenCode) con **contratos estrictos** y **sesgos de rol** explícitos.
 
 ---

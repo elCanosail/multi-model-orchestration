@@ -1,6 +1,6 @@
 # Plantilla de jurado — verificación independiente multi-modelo
 
-> **Propósito:** estandarizar el patrón **swarm de jurado** (ver `docs/swarm-patterns.md#2`): N jueces verifican un resultado sin contexto de producción.
+> **Propósito:** estandarizar el patrón **swarm de jurado** (ver [docs/swarm-patterns.md#2-jurado-voting-swarm-panel-de-veredicto](../docs/swarm-patterns.md#2-jurado-voting-swarm-panel-de-veredicto)): N jueces verifican un resultado sin contexto de producción.
 > **Modelos sugeridos (NaN):** jueces = `deepseek-v4-flash` (escepticismo) y `qwen3.6` (alternativo); ejecutor típico = `gemma4`.
 > **Regla de oro:** el juez NUNCA ve el prompt completo del ejecutor — solo el resultado y los criterios de éxito.
 

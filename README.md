@@ -73,7 +73,7 @@ El panel del experimento original mezcla plataformas (ver guía completa). Para 
 | Cold start aproximado | 3.29s | Primera llamada |
 | Throughput estimado | ~145 tok/s | Paridad aproximada con Ollama Cloud |
 | Cuota mensual | **deepseek-v4-flash 2B · mimo-v2.5 1B** | Actualizado 2026-08-22 desde docs oficiales (antes figuraba 500M) |
-| Rate limits | **60 rpm / 5 concurrentes / 1.5M tpm** por key | Actualizado 2026-08-22; clave para diseñar el fan-out |
+| Rate limits | **60 rpm / 5 concurrentes / 1.5M tpm por modelo** | Actualizado 2026-08-22; clave para diseñar el fan-out (N modelos = N×1.5M tpm) |
 | Cache discount estimado | ~98% en cached tokens | DeepSeek — una de las políticas más agresivas |
 
 ¿Qué significa en práctica? Puedes lanzar 3 sub-agentes en paralelo, si uno falla lo reasignas, iteras sin mirar el contador. "¿Podemos permitirnos otro intento?" deja de ser la pregunta. "Lanza todos los que quieras" es la respuesta.
@@ -107,7 +107,7 @@ sintesis = glm52.sintetizar(resultados + verificacion)
 
 ## ¿Para quién es esto?
 
-- **Desarrolladores usando NaN Builders** que quieren sacarle más provecho a su cuota de 500M tokens
+- **Desarrolladores usando NaN Builders** que quieren sacarle más provecho a sus cuotas (2B tok/mes en deepseek-v4-flash, 1B en mimo-v2.5)
 - **Equipos experimentando con agentes** que quieren ir más allá de "un modelo, un prompt"
 - **Investigadores** que necesitan confirmar hallazgos desde múltiples ángulos independientes
 - **Cualquiera curioso** sobre cómo se ve la orquestación multi-modelo en la práctica, no en teoría
